@@ -4,6 +4,7 @@ const { errors } = require('celebrate');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/NotFoundError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const cors = require('cors');
 
 const {
   signIn,
@@ -26,9 +27,10 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 
 app.use(express.json());
 
-app.use(cors({
-  origin: "http://localhost:3000",
-}))
+app.use(cors())
+// app.use(cors({
+//   origin: "http://localhost:3000",
+// }))
 
 app.use(requestLogger);
 
