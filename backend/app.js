@@ -27,10 +27,10 @@ mongoose.connect('mongodb://158.160.16.153:27017/mestodb', {
 
 app.use(express.json());
 
-//app.use(cors())
-app.use(cors({
-  origin: "http://alexr.students.nomoredomains.icu",
-}))
+app.use(cors())
+// app.use(cors({
+//   origin: "http://alexr.students.nomoredomains.icu",
+// }))
 
 app.use(requestLogger);
 
