@@ -29,7 +29,8 @@ app.use(express.json());
 
 // app.use(cors())
 app.use(cors({
-  origin: "http://alexr.students.nomoredomains.icu/",
+  //origin: "http://alexr.students.nomoredomains.icu/",
+  origin: "*",
 }))
 
 app.use(requestLogger);
