@@ -16,6 +16,12 @@ const {
   login,
 } = require('./controllers/user');
 
+const allowedCors = [
+  'http://alexr.students.nomoredomains.icu',
+  'https://alexr.students.nomoredomains.icu',
+  'localhost:3000'
+];
+
 const { PORT = 3000 } = process.env;
 
 const app = express();
@@ -27,11 +33,13 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 
 app.use(express.json());
 
-// app.use(cors())
-app.use(cors({
-  //origin: "http://alexr.students.nomoredomains.icu/",
-  origin: "*",
-}))
+app.use(function (req, res, next) {
+  const { origin } = req.headers;
+  if (allowedCors.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  next();
+});
 
 app.use(requestLogger);
 
@@ -39,7 +47,7 @@ app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
-}); 
+});
 
 app.post('/signin', signIn, login);
 app.post('/signup', signUp, createUser);
