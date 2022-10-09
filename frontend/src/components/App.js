@@ -29,28 +29,27 @@ function App() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    Promise.all([ApiRequest.getUserInfo(), ApiRequest.getInitialCards()])
-      .then(([userData, initialCards]) => {
-        setCurrentUser(userData)
-        setCards(initialCards)
-      })
-      .catch((error) => {
-        console.log(`Ошибка: ${error}`);
-      });
+    handleTokenCheck();
   }, []);
 
+  React.useEffect(() => {
+    if (isLogged) {
+      navigate('/');
+    }
+  }, [isLogged, navigate]);
+
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
     if (!isLiked) {
       ApiRequest.likeCard(card._id).then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
       })
         .catch((error) => {
           console.log(`Ошибка: ${error}`);
         });
     } else {
       ApiRequest.unlikeCard(card._id).then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
       })
         .catch((error) => {
           console.log(`Ошибка: ${error}`);
@@ -98,7 +97,7 @@ function App() {
   function handleRegister(email, password) {
     Auth.register(email, password)
       .then(() => {
-        setIsAuthSuccess(true)   
+        setIsAuthSuccess(true)
         navigate('/sign-in');
       })
       .catch((error) => {
@@ -120,8 +119,8 @@ function App() {
       })
       .catch((error) => {
         console.log(`Ошибка: ${error}`);
-        setIsLogged(false);
-        setIsAuthSuccess(false)
+        //setIsLogged(false);
+        //setIsAuthSuccess(false)
         openInfoTooltip();
       });
   };
@@ -133,9 +132,17 @@ function App() {
     }
     Auth.checkTokenValid(jwt)
       .then((data) => {
-        setUserEmail(data.data.email)
+        setUserEmail(data.email)
+        setCurrentUser(data)
         setIsLogged(true);
         navigate('/');
+      })
+      .catch((error) => {
+        console.log(`Ошибка: ${error}`);
+      });
+    ApiRequest.getInitialCards()
+      .then((initialCards) => {
+        setCards(initialCards.reverse());
       })
       .catch((error) => {
         console.log(`Ошибка: ${error}`);
@@ -148,16 +155,6 @@ function App() {
     setUserEmail('');
     navigate('/sign-in');
   };
-
-  React.useEffect(() => {
-    handleTokenCheck();
-  }, []);
-
-  React.useEffect(() => {
-    if (isLogged) {
-      navigate('/');
-    }
-  }, [isLogged]);
 
   const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard.link
 

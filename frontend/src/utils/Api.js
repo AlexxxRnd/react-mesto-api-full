@@ -1,3 +1,5 @@
+export const BASE_URL = 'http://api.alexr.students.nomoredomains.icu';
+
 class Api {
     constructor(data) {
         this._url = data.url;
@@ -87,11 +89,11 @@ class Api {
 };
 
 const ApiRequest = new Api({
-    url: 'https://mesto.nomoreparties.co/v1/cohort-41',
+    url: BASE_URL,
     header: {
-        authorization: '6e85cbb9-d07a-454d-87dc-f5801edbeaad',
-        'Content-Type': 'application/json'
-    }
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+    },
 });
 
 export default ApiRequest;
