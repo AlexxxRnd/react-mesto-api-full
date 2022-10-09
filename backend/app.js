@@ -52,7 +52,7 @@ app.use(express.json());
 //   next();
 // });
 app.use(cors({
-  //origin: 'http://alexr.students.nomoredomains.icu/',
+  origin: 'http://alexr.students.nomoredomains.icu/',
 }));
 app.use(requestLogger);
 
