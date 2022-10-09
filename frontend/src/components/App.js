@@ -175,7 +175,10 @@ function App() {
   function handleUpdateUser(name, about) {
     ApiRequest.setUserInfo(name, about)
       .then((data) => {
-        setCurrentUser(data)
+        ApiRequest.getUserInfo()
+          .then((data) => {
+            setCurrentUser(data)
+          })
         closeAllPopups()
       })
       .catch((error) => {
@@ -197,7 +200,10 @@ function App() {
   function handleUpdateAvatar(avatarLink) {
     ApiRequest.setUserAvatar(avatarLink)
       .then((data) => {
-        setCurrentUser(data)
+        ApiRequest.getUserInfo()
+          .then((data) => {
+            setCurrentUser(data)
+          })
         closeAllPopups()
       })
       .catch((error) => {
