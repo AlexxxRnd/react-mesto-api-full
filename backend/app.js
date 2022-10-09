@@ -23,7 +23,7 @@ const {
 //   'http://localhost:3000',
 //   'https://localhost:3000',
 // ];
-const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
+//const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 
 const { PORT = 3000 } = process.env;
 
@@ -51,7 +51,9 @@ app.use(express.json());
 //   }
 //   next();
 // });
-app.use(cors());
+app.use(cors({
+  origin: 'http://alexr.students.nomoredomains.icu/',
+}));
 app.use(requestLogger);
 
 app.get('/crash-test', () => {
