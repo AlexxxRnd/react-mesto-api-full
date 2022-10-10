@@ -116,19 +116,19 @@ function App() {
         localStorage.setItem('jwt', data.token);
         handleTokenCheck();
         navigate('/');
+        ApiRequest.getInitialCards()
+          .then((initialCards) => {
+            setCards(initialCards.reverse());
+          })
+          .catch((error) => {
+            console.log(`Ошибка: ${error}`);
+          });
       })
       .catch((error) => {
         console.log(`Ошибка: ${error}`);
         //setIsLogged(false);
         //setIsAuthSuccess(false)
         openInfoTooltip();
-      });
-    ApiRequest.getInitialCards()
-      .then((initialCards) => {
-        setCards(initialCards.reverse());
-      })
-      .catch((error) => {
-        console.log(`Ошибка: ${error}`);
       });
   };
 
