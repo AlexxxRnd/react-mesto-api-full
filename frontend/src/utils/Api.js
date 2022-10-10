@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://api.alexr.students.nomoredomains.icu';
+export const BASE_URL = 'https://api.alexr.students.nomoredomains.icu';
 
 class Api {
     constructor(data) {

@@ -123,6 +123,13 @@ function App() {
         //setIsAuthSuccess(false)
         openInfoTooltip();
       });
+    ApiRequest.getInitialCards()
+      .then((initialCards) => {
+        setCards(initialCards.reverse());
+      })
+      .catch((error) => {
+        console.log(`Ошибка: ${error}`);
+      });
   };
 
   function handleTokenCheck() {
