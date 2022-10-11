@@ -22,7 +22,6 @@ module.exports.createUser = (req, res, next) => {
       about: user.about,
       avatar: user.avatar,
       email: user.email,
-      // eslint-disable-next-line no-underscore-dangle
       _id: user._id,
     }))
     .catch((err) => {
@@ -45,7 +44,6 @@ module.exports.login = (req, res, next) => {
         return next(new UnauthorizedError('Неверный email или пароль'));
       }
       const token = jwt.sign(
-        // eslint-disable-next-line no-underscore-dangle
         { _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
         { expiresIn: '7d' },
@@ -89,7 +87,6 @@ module.exports.getUserById = (req, res, next) => {
 
 module.exports.updateProfile = (req, res, next) => {
   User.findByIdAndUpdate(
-    // eslint-disable-next-line no-underscore-dangle
     req.user._id,
     {
       name: req.body.name,
@@ -114,7 +111,6 @@ module.exports.updateProfile = (req, res, next) => {
 
 module.exports.updateAvatar = (req, res, next) => {
   User.findByIdAndUpdate(
-    // eslint-disable-next-line no-underscore-dangle
     req.user._id,
     { avatar: req.body.avatar },
     { new: true, runValidators: true },
