@@ -116,13 +116,6 @@ function App() {
         localStorage.setItem('jwt', data.token);
         handleTokenCheck();
         navigate('/');
-        ApiRequest.getInitialCards()
-          .then((initialCards) => {
-            setCards(initialCards.reverse());
-          })
-          .catch((error) => {
-            console.log(`Ошибка: ${error}`);
-          });
       })
       .catch((error) => {
         console.log(`Ошибка: ${error}`);
@@ -147,7 +140,7 @@ function App() {
       .catch((error) => {
         console.log(`Ошибка: ${error}`);
       });
-    ApiRequest.getInitialCards()
+    ApiRequest.getInitialCards(jwt)
       .then((initialCards) => {
         setCards(initialCards.reverse());
       })

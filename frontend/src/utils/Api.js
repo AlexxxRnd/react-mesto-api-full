@@ -13,9 +13,12 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`)
     };
 
-    getInitialCards() {
+    getInitialCards(token) {
         return fetch(`${this._url}/cards`, {
-            headers: this._header
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
         })
             .then(res => this._getResponse(res));
     };
